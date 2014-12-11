@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
 
+  resources :assets
+
   devise_for :users 
+
+  #this route is for file downloads 
+  match "assets/get/:id" => "assets#get", :via => [:get],  :as => "download"
 
   root :to => "home#index"
   
