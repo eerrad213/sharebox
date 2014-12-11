@@ -4,6 +4,9 @@ Rails.application.routes.draw do
 
   devise_for :users 
 
+  #this route is for file downloads 
+  match "assets/get/:id" => "assets#get", :via => [:get],  :as => "download"
+
   root :to => "home#index"
   
   # The priority is based upon order of creation: first created -> highest priority.
