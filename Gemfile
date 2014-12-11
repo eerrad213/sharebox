@@ -12,6 +12,9 @@ gem 'devise'
 #for layout and helpers generations 
 gem "nifty-generators", :group => :development
 
+#for uploading files 
+gem "paperclip"
+
 # Older Gem's from initial rails app
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
@@ -46,3 +49,5 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+
+gem "mocha", group: :test
