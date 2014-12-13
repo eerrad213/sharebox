@@ -15,6 +15,12 @@ gem "nifty-generators", :group => :development
 #for uploading files 
 gem "paperclip"
 
+#for Paperclip to use Amazon S3  
+gem "aws-sdk"
+
+#for nested folders
+gem "acts_as_tree"
+
 # Older Gem's from initial rails app
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'

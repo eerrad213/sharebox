@@ -1,14 +1,21 @@
 Rails.application.routes.draw do
 
+  resources :folders
+
   resources :assets
 
-  devise_for :users 
+  devise_for :users
 
-  #this route is for file downloads 
+  #this route is for file downloads
   match "assets/get/:id" => "assets#get", :via => [:get],  :as => "download"
 
+  match "browse/:folder_id" => "home#browse", :via => [:get],  :as => "browse"
+
+  #for creating folders insiide another folder
+  match "browse/:folder_id/new_folder" => "folders#new", :via => [:get], :as => "new_sub_folder"
+
   root :to => "home#index"
-  
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
