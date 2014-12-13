@@ -56,6 +56,6 @@ class AssetsController < ApplicationController
   end
 
   def asset_params
-    params.require(:asset).permit(:user_id, :uploaded_file) if params[:asset]
+    params.require(:asset).permit(:user_id, :uploaded_file, :folder_id) if params[:asset]
   end
 end
