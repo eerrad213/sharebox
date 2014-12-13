@@ -1,5 +1,6 @@
 class FoldersController < ApplicationController
-  before_action :set_folder, only: [:show, :edit, :update, :destroy]
+  # before_action :set_folder, only: [:show, :edit, :update, :destroy], this line is from original generate in rails 4
+  # ** This was causing this error (ActiveRecord::RecordNotFound in FoldersController#update)
   before_filter :authenticate_user!
 
   respond_to :html
@@ -29,7 +30,8 @@ class FoldersController < ApplicationController
   end
 
   def edit
-    @folder = current_user.folders.find(params[:id])
+    @folder = current_user.folders.find(params[:folder_id])
+    @current_folder = @folder.parent #this is just for breadcrumbs 
   end
 
   def create
@@ -57,8 +59,21 @@ class FoldersController < ApplicationController
 
   def destroy
     @folder = current_user.folders.find(params[:id])
+    @parent_folder = @folder.parent #grabbing the parent folder
+
+    #this will destroy the folder along with all the contents inside
+    #sub folders will also be deleted too as well as all files inside
     @folder.destroy
-    respond_with(@folder)
+    flash[:notice] = "Successfully deleted the folder and all the contents inside."
+
+    #redirect to a relevant path depending on the parent folder
+    if @parent_folder
+      redirect_to browse_path(@parent_folder)
+    else
+      redirect_to root_url
+    end
+    # respond_with(@folder), this line is from original generate in rails 4
+    # ** This was causing this error (AbstractController::DoubleRenderError in FoldersController#destroy)
   end
 
   private
