@@ -2,7 +2,7 @@
 
 ## Project Name: ShareBox
 
-Project Link: [Fact-Cards](Coming soon)
+Project Link: [ShareBox](Coming soon)
 
 Developed by: [Erwin Rosas](https://github.com/eerrad213)
 
