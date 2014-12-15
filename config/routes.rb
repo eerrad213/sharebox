@@ -20,6 +20,9 @@ Rails.application.routes.draw do
   #for renaming a folder
   match "browse/:folder_id/rename" => "folders#edit", :via => [:get], :as => "rename_folder"
 
+  #for sharing the folder
+  match "home/share" => "home#share", :via => [:get]
+
   root :to => "home#index"
 
   # The priority is based upon order of creation: first created -> highest priority.

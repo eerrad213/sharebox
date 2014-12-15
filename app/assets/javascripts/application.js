@@ -11,11 +11,13 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery-ui
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
 
-$(function() {
+// $(function() {
+$(document).ready(function() {
   // open the invitation form when a share button is clicked
   $(".share a")
       .button()
