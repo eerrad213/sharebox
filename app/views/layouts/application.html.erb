@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>ShareBox | <%= content_for?(:title) ? yield(:title) : "File-sharing web app" %></title>
-    <%= stylesheet_link_tag "application" %>
-    <%= javascript_include_tag "application" %>
-    <%= csrf_meta_tag %>
-    <%= yield(:head) %>
+  <head> 
+    <title>ShareBox |<%= content_for?(:title) ? yield(:title) : "Untitled" %></title> 
+    <%= stylesheet_link_tag "application", "//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/redmond/jquery-ui.css" %> 
+    <%= javascript_include_tag "application" %> 
+    <!-- This is for preventing CSRF attacks. -->
+    <%= csrf_meta_tag %> 
+    <%= yield(:head) %> 
   </head>
   <body>
     <div class="header_wrapper"> 

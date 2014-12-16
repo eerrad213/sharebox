@@ -21,6 +21,9 @@ gem "aws-sdk"
 #for nested folders
 gem "acts_as_tree"
 
+# JavaScripts, stylesheets, and images
+gem 'jquery-ui-rails'
+
 # Older Gem's from initial rails app
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
