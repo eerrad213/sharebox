@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   match "browse/:folder_id/rename" => "folders#edit", :via => [:get], :as => "rename_folder"
 
   #for sharing the folder
-  match "home/share" => "home#share", :via => [:get]
+  match "home/share" => "home#share", :via => [:post]
 
   root :to => "home#index"
 

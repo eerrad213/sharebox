@@ -1,4 +1,7 @@
 class Asset < ActiveRecord::Base
+  def asset_params
+    params.require(:asset).permit(:user_id, :uploaded_file, :folder_id)
+  end
 
   belongs_to :user
   belongs_to :folder

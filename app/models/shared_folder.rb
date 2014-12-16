@@ -1,5 +1,7 @@
 class SharedFolder < ActiveRecord::Base
-  attr_accessible :user_id, :shared_email, :shared_user_id,  :message,  :folder_id
+  def shared_folder_params
+    params.require(:shared_folder).permit(:user_id, :shared_email, :shared_user_id,  :message, :folder_id)
+  end
 
   #this is for the owner(creator) of the assets
   belongs_to :user
@@ -9,4 +11,6 @@ class SharedFolder < ActiveRecord::Base
 
   #for the folder being shared
   belongs_to :folder
+
+
 end
