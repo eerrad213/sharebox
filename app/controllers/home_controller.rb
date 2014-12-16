@@ -2,20 +2,36 @@ class HomeController < ApplicationController
 
   def index
     if user_signed_in?
-      #show only root folders (which have no parent folders)
+      # show folders shared by others
+      @being_shared_folders = current_user.shared_folders_by_others
+
+      # load current user's root folders (which have no parent folders)
       @folders = current_user.folders.roots
 
-      #show only root files which has no "folder_id"
+      # load current user's root files (assets) (which aren't in a folder)
       @assets = current_user.assets.where("folder_id is NULL").order("uploaded_file_file_name desc")
     end
   end
 
   #this action is for viewing folders
   def browse
-    #get the folders owned/created by the current_user
-    @current_folder = current_user.folders.find(params[:folder_id])
+    #first find the current folder within own folders
+    @current_folder = current_user.folders.find_by_id(params[:folder_id])
+    @is_this_folder_being_shared = false if @current_folder #just an instance variable to help hiding buttons on View
+
+    #if not found in own folders, find it in being_shared_folders
+    if @current_folder.nil?
+      folder = Folder.find_by_id(params[:folder_id])
+
+      @current_folder ||= folder if current_user.has_share_access?(folder)
+      @is_this_folder_being_shared = true if @current_folder #just an instance variable to help hiding buttons on View
+
+    end
 
     if @current_folder
+
+      #if under a sub folder, we shouldn't see shared folders
+      @being_shared_folders = []
 
       #getting the folders which are inside this @current_folder
       @folders = @current_folder.children

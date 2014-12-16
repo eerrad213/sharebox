@@ -20,6 +20,7 @@ gem "aws-sdk"
 
 #for nested folders
 gem "acts_as_tree"
+# gem "ancestry"
 
 # JavaScripts, stylesheets, and images
 gem 'jquery-ui-rails'

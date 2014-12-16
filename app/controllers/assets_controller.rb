@@ -1,5 +1,7 @@
+require 'open-uri'
+
 class AssetsController < ApplicationController
-  before_action :set_asset, only: [:show, :edit, :update, :destroy]
+  # before_action :set_asset, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!  #authenticate for users before any methods is called
 
   respond_to :html
@@ -10,6 +12,7 @@ class AssetsController < ApplicationController
   end
 
   def show
+    @asset = current_user.assets.find(params[:id])
     respond_with(@asset)
   end
 
@@ -39,14 +42,15 @@ class AssetsController < ApplicationController
     else
       render :action => 'new'
     end
-    # respond_with(@asset), this line is from original generate in rails 4
-    # ** This was causing this error (AbstractController::DoubleRenderError in AssetsController#create)
   end
 
   def update
     @asset = current_user.assets.find(params[:id])
-    @asset.update(asset_params)
-    respond_with(@asset)
+    if @asset.update_attributes(asset_params)
+      redirect_to @asset, :notice  => "Successfully updated asset."
+    else
+      render :action => 'edit'
+    end
   end
 
   def destroy
@@ -61,20 +65,36 @@ class AssetsController < ApplicationController
     else
       redirect_to root_url
     end
-    # respond_with(@asset), this line is from original generate in rails 4
-    # ** This was causing this error (AbstractController::DoubleRenderError in AssetsController#destroy)
   end
 
   #this action will let the users download the files (after a simple authorization check)
   def get
+    #first find the asset within own assets
     asset = current_user.assets.find_by_id(params[:id])
+
+    #if not found in own assets, check if the current_user has share access to the parent folder of the File
+    asset ||= Asset.find(params[:id]) if current_user.has_share_access?(Asset.find_by_id(params[:id]).folder)
+
     if asset
       send_file asset.uploaded_file.path, :type => asset.uploaded_file_content_type
+
+      # Parse the URL for special characters first before downloading
+      # data = open(URI.parse(URI.encode(asset.uploaded_file.url)))
+      # data = open("#{URI.parse(URI.encode(asset.uploaded_file.url))}")
+      # data = open(Asset.find(params[:id]).uploaded_file.url)
+      # data = open(asset.uploaded_file.url)
+
+      # use the send_data method to send the above bindary "data" as a file
+      # send_data data, :filename => asset.uploaded_file_file_name
+
+      #redirect to amazon S3 url which will let the user download the file automatically
+      # redirect_to asset.uploaded_file.url, :type => asset.uploaded_file_content_type
     else
       flash[:error] = "Don't be cheeky! Mind your own assets!"
-      redirect_to assets_path
+      redirect_to root_url
     end
   end
+
   private
   def set_asset
     @asset = Asset.find(params[:id])

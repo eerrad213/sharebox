@@ -31,7 +31,7 @@ class FoldersController < ApplicationController
 
   def edit
     @folder = current_user.folders.find(params[:folder_id])
-    @current_folder = @folder.parent #this is just for breadcrumbs 
+    @current_folder = @folder.parent #this is just for breadcrumbs
   end
 
   def create
@@ -47,14 +47,15 @@ class FoldersController < ApplicationController
     else
       render :action => 'new'
     end
-    # respond_with(@folder), this line is from original generate in rails 4
-    # ** This was causing this error (AbstractController::DoubleRenderError in FoldersController#create)
   end
 
   def update
     @folder = current_user.folders.find(params[:id])
-    @folder.update(folder_params)
-    respond_with(@folder)
+    if @folder.update(folder_params)
+      redirect_to @folder, :notice  => "Successfully updated folder."
+    else
+      render :action => 'edit'
+    end
   end
 
   def destroy
@@ -72,8 +73,6 @@ class FoldersController < ApplicationController
     else
       redirect_to root_url
     end
-    # respond_with(@folder), this line is from original generate in rails 4
-    # ** This was causing this error (AbstractController::DoubleRenderError in FoldersController#destroy)
   end
 
   private
@@ -82,6 +81,6 @@ class FoldersController < ApplicationController
   end
 
   def folder_params
-    params.require(:folder).permit(:name, :parent_id, :user_id)
+    params.require(:folder).permit(:name, :parent_id, :user_id) if params[:folder]
   end
 end
