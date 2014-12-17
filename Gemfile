@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.1.7'
 # Use mysql as the database for Active Record
 gem 'mysql2'
+gem 'pg'
 
 #for user authentication 
 gem 'devise'
@@ -46,6 +47,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
+gem 'mysql2psql', '~> 0.1.0', group: :development
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
