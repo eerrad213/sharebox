@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
   #this is to make sure the new user ,of which the email addresses already used to share folders by others, to have access to those folders
   def check_and_assign_shared_ids_to_shared_folders
     #First checking if the new user's email exists in any of ShareFolder records
-    shared_folders_with_same_email = SharedFolder.find_all_by_shared_email(self.email)
+    shared_folders_with_same_email = SharedFolder.find_by_shared_email(self.email)
 
     if shared_folders_with_same_email
       #loop and update the shared user id with this new user id
@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
   def has_share_access?(folder)
     # doesn't have share access if folder is nil (i.e., file is top-level)
     return false if folder.nil?
-    
+
     #has share access if the folder is one of one of his own
     return true if self.folders.include?(folder)
 
