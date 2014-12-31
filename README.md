@@ -2,7 +2,7 @@
 
 ## Project Name: ShareBox
 
-Project Link: [ShareBox](http://erwin-sharebox.herokuapp.com/)
+Project Link: [ShareBox](http://ga-sharebox.herokuapp.com/)
 
 Developed by: [Erwin Rosas](https://github.com/eerrad213)
 
